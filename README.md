@@ -11,7 +11,10 @@ M5StackのF/W個人開発リポジトリ👩‍💻
   - 📍OS
     - 📍FreeRTOS
       - ✅CPU @Core0
+        - ✅CPU Core0 メインタスク
       - ✅CPU @Core1
+        - ✅CPU Core1 メインタスク
+        - ✅UARTタスク
   - 📍WiFi🛜
     - 🚩STA
     - 🚩AP
@@ -25,7 +28,7 @@ M5StackのF/W個人開発リポジトリ👩‍💻
   - 🚩ブザー (@GPIO2)
   - 🚩PMIC (@I2C)
   - 🚩IR (@GPIO9)
-  - 🚩RGBLED (@GPI10)
+  - ✅LED (@GPI10)
   - 📍ボタン
-    - 🚩ボタンA (@GPIO37)
-    - 🚩ボタンB (@GPIO39)
+    - ✅ボタンA (@GPIO37)
+    - ✅ボタンB (@GPIO39)
