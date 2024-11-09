@@ -11,10 +11,20 @@
 
 #include "m5scp_lcd.hpp"
 
+LGFX lcd;
+static LGFX_Sprite sprite(&lcd);
+
+static void lcd_clear(void);
 static void lcd_test_init(void);
 static void lcd_test(void);
 
-LGFX lcd;
+static void lcd_clear(void)
+{
+    sprite.fillScreen(TFT_BLACK);
+    sprite.setTextColor(TFT_GREEN);
+    sprite.setCursor(0, 0);
+    sprite.pushSprite(0, 0);
+}
 
 // 初期化時の画面正常チェック
 static void lcd_test_init(void)
@@ -26,29 +36,29 @@ static void lcd_test_init(void)
     lcd.setTextColor(TFT_GREEN);
     lcd.setTextSize(3);
     lcd.printf("Init Display Test");
-    delay(100);
+    delay(200);
 
     // スクリーン
     lcd.fillScreen(TFT_WHITE);
-    delay(100);
+    delay(200);
     lcd.fillScreen(TFT_RED);
-    delay(100);
+    delay(200);
     lcd.fillScreen(TFT_GREEN);
-    delay(100);
+    delay(200);
     lcd.fillScreen(TFT_BLUE);
-    delay(100);
+    delay(200);
     lcd.fillScreen(TFT_BLACK);
-    delay(100);
+    delay(200);
 
     // スプライト
     lcd.drawRect(15, 55, 50, 50, TFT_BLUE);
-    delay(100);
+    delay(200);
     lcd.fillRect(15, 55, 50, 50, TFT_BLUE);
-    delay(100);
+    delay(200);
     lcd.drawCircle(40, 80, 30, TFT_RED);
-    delay(100);
+    delay(200);
     lcd.fillCircle(40, 80, 30, TFT_RED);
-    delay(100);
+    delay(200);
 }
 
 // 画面にランダムなスプライトを描画
@@ -63,10 +73,39 @@ static void lcd_test(void)
 void m5scp_lcd_init(void)
 {
     lcd.init();
+    lcd.setRotation(ROTATION_D);
+    sprite.setColorDepth(16);
+    sprite.setTextWrap(false);
+    sprite.setTextSize(1);
+    sprite.createSprite(lcd.width(), lcd.height());
+}
+
+void m5scp_lcd_test(void)
+{
+    for(uint8_t i = 0; i < 100; i++) {
+        lcd_test();
+    }
     lcd_test_init();
+
+    m5scp_lcd_init();
+    lcd.setCursor(0, 10);
+    // sprite.setFont(&fonts::lgfxJapanGothic_8);
+    sprite.setFont(&fonts::efontJA_12);
+    sprite.setTextColor(TFT_WHITE);
+    sprite.setTextSize(1);
+    sprite.printf("ちみの新しいおもちゃ\n");
+    sprite.printf("M5Stick C Plus\n");
+    sprite.printf("WiFiもBluetoothも!\n");
+    sprite.printf("CPUも2つも乗ってる!\n");
+    sprite.printf("電子工作おもろい！\n");
+    sprite.pushSprite(0, 0);
 }
 
 void m5scp_lcd_main(void)
 {
+#if 0
     lcd_test();
+#else
+    NOP;
+#endif
 }

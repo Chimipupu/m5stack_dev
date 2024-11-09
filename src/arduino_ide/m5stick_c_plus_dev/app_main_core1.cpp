@@ -50,7 +50,8 @@ void vTaskCore1Buzzer(void *p_parameter)
     while (1)
     {
         // TODO:ブザータスク処理
-        app_buzzer_test();
+        // app_buzzer_test();
+        NOP;
         vTaskDelay(3000 / portTICK_PERIOD_MS);
     }
 }
@@ -75,7 +76,6 @@ void vTaskCore1UART(void *p_parameter)
 void vTaskCore1Main(void *p_parameter)
 {
     DEBUG_PRINTF_RTOS("[Core1] ... vTaskCore1Main\n");
-    m5scp_lcd_init();
 
     while (1)
     {
@@ -107,8 +107,12 @@ void app_main_init_core1(void)
     attachInterrupt(BUTTON_A_PIN, btn_a_isr, CHANGE);
     attachInterrupt(BUTTON_B_PIN, btn_b_isr, CHANGE);
 
+    // LCD
+    m5scp_lcd_init();
+    m5scp_lcd_test();
+
     // ブザー
-    // buzzer_test();
+    app_buzzer_test();
 
     // UART
     Serial.begin(115200);
