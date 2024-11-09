@@ -24,7 +24,7 @@ static void lcd_test_init(void)
     lcd.fillScreen(TFT_BLACK);
     lcd.setCursor(0, 10);
     lcd.setTextColor(TFT_GREEN);
-    lcd.setTextSize(5);
+    lcd.setTextSize(3);
     lcd.printf("Init Display Test");
     delay(100);
 

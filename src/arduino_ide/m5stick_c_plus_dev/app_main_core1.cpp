@@ -12,11 +12,13 @@
 #include "common.hpp"
 #include "app_main_core1.hpp"
 #include "m5scp_lcd.hpp"
+#include "app_buzzer.hpp"
 
 SemaphoreHandle_t g_serial_mux;
 portMUX_TYPE g_port_mux = portMUX_INITIALIZER_UNLOCKED;
 static xTaskHandle s_xTaskCore1Main;
 static xTaskHandle s_xTaskCore1UART;
+static xTaskHandle s_xTaskCore1Buzzer;
 
 static uint8_t s_led_val = 0;
 static uint8_t s_ir_led_val = 0;
@@ -41,10 +43,21 @@ void IRAM_ATTR btn_b_isr()
     NOP;
 }
 
+void vTaskCore1Buzzer(void *p_parameter)
+{
+    DEBUG_PRINTF_RTOS("[Core1] ... s_xTaskCore1Buzzer\n");
+
+    while (1)
+    {
+        // TODO:ブザータスク処理
+        app_buzzer_test();
+        vTaskDelay(3000 / portTICK_PERIOD_MS);
+    }
+}
+
 void vTaskCore1UART(void *p_parameter)
 {
     DEBUG_PRINTF_RTOS("[Core1] ... vTaskCore1UART\n");
-    m5scp_lcd_init();
 
     while (1)
     {
@@ -55,7 +68,7 @@ void vTaskCore1UART(void *p_parameter)
         s_ir_led_val = !s_ir_led_val;
         DEBUG_PRINTF_RTOS("LED = %d\n", s_led_val);
         DEBUG_PRINTF_RTOS("IR LED = %d\n", s_ir_led_val);
-        vTaskDelay(500 / portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
 
@@ -76,7 +89,7 @@ void vTaskCore1Main(void *p_parameter)
         DEBUG_PRINTF_RTOS("DeepSleep : %d min\n", dat);
         esp_deep_sleep_start();
 #endif
-        vTaskDelay(8 / portTICK_PERIOD_MS);
+        vTaskDelay(20 / portTICK_PERIOD_MS);
     }
 }
 
@@ -94,6 +107,9 @@ void app_main_init_core1(void)
     attachInterrupt(BUTTON_A_PIN, btn_a_isr, CHANGE);
     attachInterrupt(BUTTON_B_PIN, btn_b_isr, CHANGE);
 
+    // ブザー
+    // buzzer_test();
+
     // UART
     Serial.begin(115200);
 
@@ -103,7 +119,7 @@ void app_main_init_core1(void)
                             "vTaskCore1Main",  // タスク名
                             8192,              // スタック
                             NULL,              // パラメータ
-                            3,                 // 優先度(0～7、7が最優先)
+                            6,                 // 優先度(0～7、7が最優先)
                             &s_xTaskCore1Main, // ハンドル
                             CPU_CORE_1);       // Core0 or Core1
 
@@ -111,8 +127,16 @@ void app_main_init_core1(void)
                             "vTaskCore1UART",  // タスク名
                             4096,              // スタック
                             NULL,              // パラメータ
-                            1,                 // 優先度(0～7、7が最優先)
+                            2,                 // 優先度(0～7、7が最優先)
                             &s_xTaskCore1UART, // ハンドル
+                            CPU_CORE_1);       // Core0 or Core1
+
+    xTaskCreatePinnedToCore(vTaskCore1Buzzer,  // コールバック関数ポインタ
+                            "vTaskCore1Buzzer",// タスク名
+                            4096,              // スタック
+                            NULL,              // パラメータ
+                            0,                 // 優先度(0～7、7が最優先)
+                            &s_xTaskCore1Buzzer, // ハンドル
                             CPU_CORE_1);       // Core0 or Core1
 }
 

@@ -15,6 +15,7 @@ M5StackのF/W個人開発リポジトリ👩‍💻
       - ✅CPU @Core1
         - ✅CPU Core1 メインタスク
         - ✅UARTタスク
+        - ✅ブザータスク📢
   - 📍WiFi🛜
     - 🚩STA
     - 🚩AP
@@ -25,7 +26,7 @@ M5StackのF/W個人開発リポジトリ👩‍💻
     - ✅LovyanGFX
   - 🚩IMU (@I2C)
   - 🚩マイク (@I2S)
-  - 🚩ブザー (@GPIO2)
+  - ✅ブザー (@GPIO2)📢
   - 🚩PMIC (@I2C)
   - 🚩IR (@GPIO9)
   - ✅LED (@GPI10)
