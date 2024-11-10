@@ -1,37 +1,6 @@
 # M5Stack評価F/W開発
-M5StackのF/W個人開発リポジトリ👩‍💻
+M5Stackの評価F/W 開発リポジトリ👩‍💻
 
-## 対象
-- ✅M5Stick C Plus
-
-### 実装状況
-**凡例(✅テスト完了、🆗実装済み、🚩TODO、❌TBD)**
-
-- 📢外部モジュール
-    - 🚩アンプ＆スピーカー（PAM8303）📢
-- ✅M5Stick C Plus
-  - 📍OS
-    - 📍FreeRTOS
-      - ✅CPU @Core0
-        - ✅CPU Core0 メインタスク
-      - ✅CPU @Core1
-        - ✅CPU Core1 メインタスク
-        - ✅UARTタスク
-        - ✅ブザータスク📢
-  - 📍WiFi🛜
-    - 🚩STA
-    - 🚩AP
-  - 📍Bluetooth🛜
-    - 🚩SSP
-    - 🚩A2DP
-  - 🚩LCD (@I2C)
-    - ✅LovyanGFX
-  - 🚩IMU (@I2C)
-  - 🚩マイク (@I2S)
-  - ✅ブザー (@GPIO2)📢
-  - 🚩PMIC (@I2C)
-  - 🚩IR (@GPIO9)
-  - ✅LED (@GPI10)
-  - 📍ボタン
-    - ✅ボタンA (@GPIO37)
-    - ✅ボタンB (@GPIO39)
+## ブランチ
+- ✅[M5Stick C Plus🔗（ブランチ）](https://github.com/Chimipupu/m5stack_dev/tree/m5stick_c_plus)
+- ✅[M5Stack Core2 AWS🔗（ブランチ）](https://github.com/Chimipupu/m5stack_dev/tree/m5stack_core2_aws)
