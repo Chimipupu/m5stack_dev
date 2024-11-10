@@ -1,5 +1,5 @@
-# M5Stack評価F/W開発
-M5StackのF/W個人開発リポジトリ👩‍💻
+# M5Stick C Plus 開発
+M5Stick C PlusのF/W開発ブランチ👩‍💻
 
 ## 対象
 - ✅M5Stick C Plus
