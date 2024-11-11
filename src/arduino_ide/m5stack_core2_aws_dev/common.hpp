@@ -24,8 +24,6 @@
 // #include <task.h>
 // #include <semphr.h>
 
-// アプリ
-#include "mcu_board.hpp"
 
 // 割込みマスク・許可
 #define __DI            portENTER_CRITICAL

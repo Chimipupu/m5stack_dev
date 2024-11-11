@@ -1,7 +1,7 @@
 /**
- * @file m5scp_lcd.hpp
+ * @file app_lcd.hpp
  * @author ちみ/Chimi（https://github.com/Chimipupu）
- * @brief M5Stick C PlusのLCDヘッダー
+ * @brief LCDヘッダー
  * @version 0.1
  * @date 2024-11-10
  * 
@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef M5SCP_LCD_HPP
-#define M5SCP_LCD_HPP
+#ifndef APP_LCD_HPP
+#define APP_LCD_HPP
 
 #include "common.hpp"
 
@@ -28,8 +28,11 @@ typedef enum
     ROTATION_D,     // 左上基準
 }E_LCD_ROTATION;
 
-void m5scp_lcd_init(void);
-void m5scp_lcd_test(void);
-void m5scp_lcd_main(void);
+extern char g_rtc_date_buf[];
+extern char g_rtc_time_buf[];
 
-#endif /* M5SCP_LCD_HPP */
+void app_lcd_init(void);
+void app_lcd_test(void);
+void app_lcd_main(void);
+
+#endif /* APP_LCD_HPP */

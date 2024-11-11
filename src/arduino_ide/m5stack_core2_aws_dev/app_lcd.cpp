@@ -1,7 +1,7 @@
 /**
- * @file m5scp_lcd.hpp
+ * @file app_lcd.hpp
  * @author ちみ/Chimi（https://github.com/Chimipupu）
- * @brief M5Stick C PlusのLCDアプリソース
+ * @brief LCDアプリ 実装
  * @version 0.1
  * @date 2024-11-10
  * 
@@ -9,7 +9,7 @@
  * 
  */
 
-#include "m5scp_lcd.hpp"
+#include "app_lcd.hpp"
 
 LGFX lcd;
 static LGFX_Sprite sprite(&lcd);
@@ -17,6 +17,7 @@ static LGFX_Sprite sprite(&lcd);
 static void lcd_clear(void);
 static void lcd_test_init(void);
 static void lcd_test(void);
+static void rtc_lcd_show(void);
 
 static void lcd_clear(void)
 {
@@ -61,51 +62,57 @@ static void lcd_test_init(void)
     delay(200);
 }
 
+static void rtc_lcd_show(void)
+{
+    lcd.fillScreen(TFT_BLACK);
+    lcd.setCursor(0, 0);
+    lcd.setTextColor(TFT_WHITE);
+    lcd.printf("Data:%s\n", g_rtc_date_buf);
+    lcd.printf("Time:%s\n", g_rtc_time_buf);
+}
+
 // 画面にランダムなスプライトを描画
 static void lcd_test(void)
 {
     lcd.fillTriangle(random(lcd.width() - 1), random(lcd.height() - 1),
-                        random(lcd.width() - 1), random(lcd.height() - 1),
-                        random(lcd.width() - 1), random(lcd.height() - 1),
-                        random(0xfffe));
+                    random(lcd.width() - 1), random(lcd.height() - 1),
+                    random(lcd.width() - 1), random(lcd.height() - 1),
+                    random(0xFFFE));
 }
 
-void m5scp_lcd_init(void)
+void app_lcd_init(void)
 {
     lcd.init();
-    lcd.setRotation(ROTATION_D);
+    lcd.setRotation(ROTATION_A);
     sprite.setColorDepth(16);
     sprite.setTextWrap(false);
     sprite.setTextSize(1);
     sprite.createSprite(lcd.width(), lcd.height());
 }
 
-void m5scp_lcd_test(void)
+void app_lcd_test(void)
 {
     for(uint8_t i = 0; i < 100; i++) {
         lcd_test();
     }
-    lcd_test_init();
 
-    m5scp_lcd_init();
-    lcd.setCursor(0, 10);
-    // sprite.setFont(&fonts::lgfxJapanGothic_8);
-    sprite.setFont(&fonts::efontJA_12);
-    sprite.setTextColor(TFT_WHITE);
-    sprite.setTextSize(1);
-    sprite.printf("ちみの新しいおもちゃ\n");
-    sprite.printf("M5Stick C Plus\n");
-    sprite.printf("WiFiもBluetoothも!\n");
-    sprite.printf("CPUも2つも乗ってる!\n");
-    sprite.printf("電子工作おもろい！\n");
-    sprite.pushSprite(0, 0);
+    lcd_test_init();
+    lcd_clear();
+
+    // lcd.setCursor(0, 10);
+    // // sprite.setFont(&fonts::lgfxJapanGothic_8);
+    // sprite.setFont(&fonts::efontJA_12);
+    // sprite.setTextColor(TFT_WHITE);
+    // sprite.setTextSize(1);
+    // sprite.printf("ちみの新しいおもちゃ\n");
+    // sprite.printf("M5Stack Core2 AWS\n");
+    // sprite.printf("WiFiもBluetoothも!\n");
+    // sprite.printf("CPUも2つも乗ってる!\n");
+    // sprite.printf("電子工作おもろい！\n");
+    // sprite.pushSprite(0, 0);
 }
 
-void m5scp_lcd_main(void)
+void app_lcd_main(void)
 {
-#if 0
-    lcd_test();
-#else
-    NOP;
-#endif
+    rtc_lcd_show();
 }
