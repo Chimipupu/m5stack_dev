@@ -1,7 +1,7 @@
 /**
  * @file app_lcd.hpp
  * @author ちみ/Chimi（https://github.com/Chimipupu）
- * @brief LCDアプリ ソース
+ * @brief LCDアプリ 実装
  * @version 0.1
  * @date 2024-11-10
  * 
@@ -75,9 +75,9 @@ static void rtc_lcd_show(void)
 static void lcd_test(void)
 {
     lcd.fillTriangle(random(lcd.width() - 1), random(lcd.height() - 1),
-                        random(lcd.width() - 1), random(lcd.height() - 1),
-                        random(lcd.width() - 1), random(lcd.height() - 1),
-                        random(0xfffe));
+                    random(lcd.width() - 1), random(lcd.height() - 1),
+                    random(lcd.width() - 1), random(lcd.height() - 1),
+                    random(0xFFFE));
 }
 
 void app_lcd_init(void)

@@ -33,7 +33,7 @@
 #define DEEPSLEEP_TIME_US_12HOUR  43200ULL * 1000000ULL   // 12時間
 #define DEEPSLEEP_TIME_US_24HOUR  86400ULL * 1000000ULL   // 24時間
 
-#define DEEPSLEEP_TIME_US DEEPSLEEP_TIME_US_1MIN
+#define DEEPSLEEP_TIME_US         DEEPSLEEP_TIME_US_1MIN
 
 void app_main_init_core1(void);
 void app_main_core1(void);

@@ -15,12 +15,13 @@
 #include "app_main_core1.hpp"
 #include "app_lcd.hpp"
 #include "app_btn.hpp"
+#include "app_filesystem.hpp"
 
 SemaphoreHandle_t g_serial_mux;
 portMUX_TYPE g_port_mux = portMUX_INITIALIZER_UNLOCKED;
 static xTaskHandle s_xTaskCore1Main;
 
-#define PIN 25
+#define PIN       25
 #define NUMPIXELS 10
 
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
@@ -46,8 +47,7 @@ static void rgbled_test(void)
 
         if ((it % 3) == 0) {
             pixels.setPixelColor(it, pixels.Color(0, 150, 0));
-        }
-        else if ((it % 3) == 1) {
+        } else if ((it % 3) == 1) {
             pixels.setPixelColor(it, pixels.Color(0, 0, 150));
         } else {
             pixels.setPixelColor(it, pixels.Color(150, 0, 0));
@@ -72,8 +72,8 @@ static void get_rtc_time(void)
     M5.Rtc.GetDate(&g_rtc_date);
     M5.Rtc.GetTime(&g_rtc_time);
 
-    memset(&g_rtc_date_buf[0], 0, sizeof(g_rtc_date_buf));
-    memset(&g_rtc_time_buf[0], 0, sizeof(g_rtc_time_buf));
+    memset(&g_rtc_date_buf[0], 0x00, sizeof(g_rtc_date_buf));
+    memset(&g_rtc_time_buf[0], 0x00, sizeof(g_rtc_time_buf));
     sprintf(g_rtc_date_buf,"%04d/%02d/%02d\n",
             g_rtc_date.Year,
             g_rtc_date.Month,
@@ -93,10 +93,9 @@ void vTaskCore1Main(void *p_parameter)
         // TODO:メインタスク処理
 #if 1
         M5.update();
-        DEBUG_PRINTF_RTOS("[Core1] ... vTaskCore1Main\n");
         app_btn_polling();
-        get_rtc_time();
-        app_lcd_main();
+        // get_rtc_time();
+        // app_lcd_main();
 #else
         // DeepSleep @DEEPSLEEP_TIME_US
         uint32_t dat = (DEEPSLEEP_TIME_US / 60) / 1000000;
@@ -111,25 +110,31 @@ void vTaskCore1Main(void *p_parameter)
 void app_main_init_core1(void)
 {
     M5.begin();
+    delay(500); // ドライバ初期化待ち
+    g_serial_mux = xSemaphoreCreateMutex();
 
     // Deep Sleep
     esp_sleep_enable_timer_wakeup(DEEPSLEEP_TIME_US);
+
+    // UART
+    Serial.begin(115200);
 
     // ボタン
     app_btn_init();
 
     // LED
-    pixels.begin();
+    // pixels.begin();
 
     // LCD
     app_lcd_init();
     app_lcd_test();
 
-    // UART
-    Serial.begin(115200);
+    // File System(SD/SPIFS/FATFS)
+    // TODO:下記エラーの原因調査
+    // E (1073) I2S: i2s_driver_uninstall(2048): I2S port 0 has not installed
+    app_fs_init();
 
     // FreeRTOS
-    g_serial_mux = xSemaphoreCreateMutex();
     xTaskCreatePinnedToCore(vTaskCore1Main,    // コールバック関数ポインタ
                             "vTaskCore1Main",  // タスク名
                             8192,              // スタック
