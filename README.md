@@ -17,10 +17,11 @@ M5Stack Core2のF/W開発ブランチ👩‍💻
       - ✅CPU @Core1
         - ✅CPU Core1 メインタスク
           - ✅SDカードのR/W
+          - ✅WiFiにSTAで接続
           - ✅タッチボタン(A/B/C)のポーリング
           - ✅LCDのアプリ処理
   - 📍WiFi🛜
-    - 🚩STA
+    - ✅STA
     - 🚩AP
   - 📍Bluetooth🛜
     - 🚩SSP
