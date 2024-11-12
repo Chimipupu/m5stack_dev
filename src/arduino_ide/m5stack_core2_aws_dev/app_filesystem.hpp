@@ -15,5 +15,6 @@
 #include "common.hpp"
 
 void app_fs_init(void);
+void app_fs_wifi_config_read(char *p_ssid, char *p_password);
 
 #endif /* APP_FILESYSTEM_HPP */
