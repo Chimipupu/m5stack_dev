@@ -21,17 +21,23 @@ static void rtc_lcd_show(void);
 
 static void lcd_clear(void)
 {
+#if 0
     sprite.fillScreen(TFT_BLACK);
     sprite.setTextColor(TFT_GREEN);
     sprite.setCursor(0, 0);
     sprite.pushSprite(0, 0);
+#else
+    lcd.fillScreen(TFT_BLACK);
+    lcd.setTextColor(TFT_GREEN);
+    lcd.setCursor(0, 0);
+#endif
 }
 
 // 初期化時の画面正常チェック
 static void lcd_test_init(void)
 {
     // 文字
-    lcd.setRotation(ROTATION_D);
+    lcd.setRotation(ROTATION_B);
     lcd.fillScreen(TFT_BLACK);
     lcd.setCursor(0, 10);
     lcd.setTextColor(TFT_GREEN);
@@ -80,10 +86,15 @@ static void lcd_test(void)
                     random(0xFFFE));
 }
 
+void app_lcd_clear(void)
+{
+    lcd_clear();
+}
+
 void app_lcd_init(void)
 {
     lcd.init();
-    lcd.setRotation(ROTATION_A);
+    lcd.setRotation(ROTATION_B);
     sprite.setColorDepth(16);
     sprite.setTextWrap(false);
     sprite.setTextSize(1);
@@ -96,7 +107,6 @@ void app_lcd_test(void)
         lcd_test();
     }
 
-    lcd_test_init();
     lcd_clear();
 
     // lcd.setCursor(0, 10);

@@ -22,10 +22,10 @@
 // USBが左基準
 typedef enum
 {
-    ROTATION_A = 0, // TBD基準
-    ROTATION_B,     // TBD基準
-    ROTATION_C,     // 右下基準
-    ROTATION_D,     // 左上基準
+    ROTATION_A = 0, // 文字90度左回転
+    ROTATION_B,     // 正面
+    ROTATION_C,     // 文字90度右回転
+    ROTATION_D,     // 文字真っ逆さま
 }E_LCD_ROTATION;
 
 extern char g_rtc_date_buf[];
@@ -33,6 +33,7 @@ extern char g_rtc_time_buf[];
 
 void app_lcd_init(void);
 void app_lcd_test(void);
+void app_lcd_clear(void);
 void app_lcd_main(void);
 
 #endif /* APP_LCD_HPP */

@@ -87,16 +87,17 @@ static void fs_wifi_config_read(void)
         }
         myFile.close();
     } else {
-        M5.Lcd.println("error opening /test.txt");
+        M5.Lcd.println("error opening wifi_config.txt");
     }
 }
 
 void app_fs_init(void)
 {
     fs_init();
-#if 0
-    fs_test();
-#else
+    // fs_test();
+}
+
+void app_fs_wifi_config_read(void)
+{
     fs_wifi_config_read();
-#endif
 }

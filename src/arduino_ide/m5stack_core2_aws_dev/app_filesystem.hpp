@@ -15,5 +15,6 @@
 #include "common.hpp"
 
 void app_fs_init(void);
+void app_fs_wifi_config_read(void);
 
 #endif /* APP_FILESYSTEM_HPP */

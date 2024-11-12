@@ -123,16 +123,15 @@ void app_main_init_core1(void)
     app_btn_init();
 
     // LED
-    // pixels.begin();
+    pixels.begin();
 
     // LCD
     app_lcd_init();
     app_lcd_test();
 
     // File System(SD/SPIFS/FATFS)
-    // TODO:下記エラーの原因調査
-    // E (1073) I2S: i2s_driver_uninstall(2048): I2S port 0 has not installed
     app_fs_init();
+    app_fs_wifi_config_read();
 
     // FreeRTOS
     xTaskCreatePinnedToCore(vTaskCore1Main,    // コールバック関数ポインタ
