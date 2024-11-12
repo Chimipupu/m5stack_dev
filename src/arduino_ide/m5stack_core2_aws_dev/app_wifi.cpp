@@ -9,6 +9,7 @@
  * 
  */
 
+#include <M5Core2.h>
 #include"app_wifi.hpp"
 #include "app_neopixel.hpp"
 #include "app_filesystem.hpp"
@@ -87,7 +88,14 @@ static void time_show(bool type)
     {
         case NTP_TIME:
             getLocalTime(&s_ntp_timeinfo_t);
-            DEBUG_PRINTF_RTOS("NTP: %04d/%02d/%02d %02d:%02d:%02d\n",
+            DEBUG_PRINTF_RTOS("NTP:%04d/%02d/%02d %02d:%02d:%02d\n",
+                            s_ntp_timeinfo_t.tm_year + 1900,
+                            s_ntp_timeinfo_t.tm_mon + 1,
+                            s_ntp_timeinfo_t.tm_mday,
+                            s_ntp_timeinfo_t.tm_hour,
+                            s_ntp_timeinfo_t.tm_min,
+                            s_ntp_timeinfo_t.tm_sec);
+            M5.lcd.printf("NTP:%04d/%02d/%02d %02d:%02d:%02d\n",
                             s_ntp_timeinfo_t.tm_year + 1900,
                             s_ntp_timeinfo_t.tm_mon + 1,
                             s_ntp_timeinfo_t.tm_mday,
@@ -98,7 +106,14 @@ static void time_show(bool type)
 
         case RTC_TIME:
             getLocalTime(&s_rtc_timeinfo_t);
-            DEBUG_PRINTF_RTOS("RTC: %04d/%02d/%02d %02d:%02d:%02d\n",
+            DEBUG_PRINTF_RTOS("RTC:%04d/%02d/%02d %02d:%02d:%02d\n",
+                            s_rtc_timeinfo_t.tm_year + 1900,
+                            s_rtc_timeinfo_t.tm_mon + 1,
+                            s_rtc_timeinfo_t.tm_mday,
+                            s_rtc_timeinfo_t.tm_hour,
+                            s_rtc_timeinfo_t.tm_min,
+                            s_rtc_timeinfo_t.tm_sec);
+            M5.lcd.printf("RTC:%04d/%02d/%02d %02d:%02d:%02d\n",
                             s_rtc_timeinfo_t.tm_year + 1900,
                             s_rtc_timeinfo_t.tm_mon + 1,
                             s_rtc_timeinfo_t.tm_mday,
@@ -117,6 +132,7 @@ static void set_ntp_to_rtc_time(void)
     char timeStr[100], rtcStr[100];
 
     DEBUG_PRINTF_RTOS("NTPとRTCを同期開始\n");
+    M5.lcd.printf("Sync RTC & NTP\n");
 
     __DI(&g_port_mux);
     strftime(timeStr, sizeof(timeStr), "NTP: %Y/%m/%d %H:%M:%S", &s_ntp_timeinfo_t);
@@ -175,11 +191,15 @@ static void sta_mode_main(void)
         app_neopixel_main(0, 16, 0, 0,true, false); // green, on
 
         DEBUG_PRINTF_RTOS("\nWiFi接続完了!\n");
+        M5.lcd.printf("Wifi connected!\n");
         DEBUG_PRINTF_RTOS("IP addr : %s\n", WiFi.localIP().toString().c_str());
+        M5.lcd.printf("IP:%s\n", WiFi.localIP().toString().c_str());
         String str = WiFi.macAddress();
-        DEBUG_PRINTF_RTOS("WiFi MAC addr : %s\n", str.c_str());
+        DEBUG_PRINTF_RTOS("MAC addr : %s\n", str.c_str());
+        M5.lcd.printf("MAC:%s\n", str.c_str());
 
         DEBUG_PRINTF_RTOS("NTPサーバーに接続...\n");
+        M5.lcd.printf("NTP Server connect\n");
         // __DI(&g_port_mux);
         configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
         configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
@@ -200,6 +220,7 @@ static void sta_mode_main(void)
         s_ftp_flg = true;
 #else
         DEBUG_PRINTF_RTOS("WiFiから切断\n");
+        M5.lcd.printf("WiFi Disconnect!\n");
         WiFi.disconnect();
         s_wifi_flag = false;
 #endif /* YD_ESP_S3 */

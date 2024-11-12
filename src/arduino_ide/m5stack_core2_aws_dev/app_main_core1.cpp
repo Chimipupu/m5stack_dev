@@ -121,6 +121,8 @@ void app_main_init_core1(void)
     // LCD
     app_lcd_init();
     app_lcd_test();
+    M5.lcd.setTextSize(2);
+    M5.lcd.setTextColor(TFT_GREEN);
 
     // File System(SD/SPIFS/FATFS)
     app_fs_init();
