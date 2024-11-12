@@ -15,7 +15,6 @@
 #include <Adafruit_NeoPixel.h>
 
 #define RGBLED_PIN       25
-#define NUMPIXELS        10
 
 typedef struct {
     uint8_t red;        // 赤色の輝度 (0-255)

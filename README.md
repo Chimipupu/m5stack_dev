@@ -7,8 +7,6 @@ M5Stack Core2のF/W開発ブランチ👩‍💻
 ## 実装状況
 **凡例(✅実装済み、🆗ライブラリAPI、🚩TODO、❌TBD)**
 
-- 📢外部モジュール
-    - 🚩アンプ＆スピーカー（PAM8303）📢
 - ✅M5Stack Core2 AWS
   - 📍OS
     - 📍FreeRTOS

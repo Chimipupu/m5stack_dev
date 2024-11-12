@@ -12,7 +12,7 @@
 
 #define MAX_BRIGHTNESS          32      // 最大輝度
 #define LED_COLOR_ON_TIMER      100     // 1色の表示時間
-#define RGBLED_NUM              1       // RGB LEDの数
+#define RGBLED_NUM              10      // RGB LEDの数
 
 static uint8_t s_red = 0;        // 赤
 static uint8_t s_green = 0;      // 青
@@ -30,7 +30,7 @@ static void rgbled_test(void);
 static void rgbled_test(void)
 {
     pixels.clear();
-    for (int it = 0; it < NUMPIXELS; it++)
+    for (int it = 0; it < RGBLED_NUM; it++)
     {
         int jt = it - 1;
         if (jt < 0) {
@@ -132,8 +132,10 @@ void app_neopixel_main(uint8_t red,uint8_t green, uint8_t blue, uint8_t brightne
 
     if(s_autoled != true){
         if (s_onoff != false) {
-            pixels.setPixelColor(0, pixels.Color(s_red, s_green, s_blue));
-            pixels.show();
+            for(uint8_t i = 0; i < RGBLED_NUM; i++){
+                pixels.setPixelColor(i, pixels.Color(s_red, s_green, s_blue));
+                pixels.show();
+            }
         }else{
             pixels.clear();
             pixels.show();
