@@ -19,7 +19,7 @@ constexpr char wifi_config_file_path[] = "/sys/wifi_config.txt";
 
 static void fs_init(void);
 static void fs_test(void);
-static void fs_wifi_config_read(void);
+static void fs_wifi_config_read(char *p_ssid, char *p_password);
 
 static void fs_init(void)
 {
@@ -69,7 +69,7 @@ static void fs_test(void)
     }
 }
 
-static void fs_wifi_config_read(void)
+static void fs_wifi_config_read(char *p_ssid, char *p_password)
 {
     M5.Lcd.println("WiFi Config File Read(@SD)");
 
@@ -77,14 +77,25 @@ static void fs_wifi_config_read(void)
         M5.Lcd.println("wifi_config.txt exists.");
     } else {
         M5.Lcd.println("wifi_config.txt doesn't exist.");
+        return;
     }
 
-    File myFile = myFile = SD.open(wifi_config_file_path, FILE_READ);
+    File myFile = SD.open(wifi_config_file_path, FILE_READ);
     if (myFile) {
-        M5.Lcd.println("wifi_config.txt(SSID, Password)");
-        while (myFile.available()) {
-            M5.Lcd.write(myFile.read());
-        }
+        M5.Lcd.printf("SSID:");
+
+        String ssid = myFile.readStringUntil('\n');
+        ssid.trim();
+        ssid.toCharArray(p_ssid, ssid.length() + 1);
+        M5.Lcd.printf("%s\n", p_ssid);
+
+        M5.Lcd.printf("Password:");
+
+        String password = myFile.readStringUntil('\n');
+        ssid.trim();
+        password.toCharArray(p_password, password.length() + 1);
+        M5.Lcd.printf("%s\n", p_password);
+
         myFile.close();
     } else {
         M5.Lcd.println("error opening wifi_config.txt");
@@ -97,7 +108,7 @@ void app_fs_init(void)
     // fs_test();
 }
 
-void app_fs_wifi_config_read(void)
+void app_fs_wifi_config_read(char *p_ssid, char *p_password)
 {
-    fs_wifi_config_read();
+    fs_wifi_config_read(p_ssid, p_password);
 }
