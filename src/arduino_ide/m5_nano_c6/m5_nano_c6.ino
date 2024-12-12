@@ -1,7 +1,7 @@
 /**
  * @file m5_nano_c6.ino
  * @author ちみ/Chimi(https://github.com/Chimipupu)
- * @brief M5Stack NanoC6 評価プログラム Arduino IDEファイル
+ * @brief M5NanoC6 評価プログラム Arduino IDEファイル
  * @version 0.1
  * @date 2024-12-10
  * 

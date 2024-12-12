@@ -75,6 +75,7 @@ void vTaskCoreMain(void *p_parameter)
     }
 }
 
+#ifdef __WIFI_ENABLE__
 void vTaskWiFi(void *p_parameter)
 {
     DEBUG_PRINTF_RTOS("[Core] vTaskWiFi\n");
@@ -92,6 +93,7 @@ void vTaskWiFi(void *p_parameter)
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }
+#endif /* __WIFI_ENABLE__ */
 
 void app_main_init(void)
 {
@@ -129,6 +131,7 @@ void app_main_init(void)
                             &s_xTaskMain, // ハンドル
                             CPU_CORE_1);       // Core0 or Core
 
+#ifdef __WIFI_ENABLE__
     xTaskCreatePinnedToCore(vTaskWiFi,     // コールバック関数ポインタ
                             "vTaskWiFi",   // タスク名
                             8192,              // スタック
@@ -136,6 +139,7 @@ void app_main_init(void)
                             6,                 // 優先度(0～7、7が最優先)
                             &s_xTaskWiFi, // ハンドル
                             CPU_CORE_1);       // Core0 or Core
+#endif /* __WIFI_ENABLE__ */
 }
 
 void app_main(void)

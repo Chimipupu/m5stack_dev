@@ -11,6 +11,10 @@
 #ifndef APP_MAIN_HPP
 #define APP_MAIN_HPP
 
+// #define __WIFI_ENABLE__
+#ifdef __WIFI_ENABLE__
+#endif /* __WIFI_ENABLE__ */
+
 #define IR_LED_PIN    3 // M5NanoC6 赤外線LED
 #define OB_LED_PIN    7 // M5NanoC6 青色LED
 

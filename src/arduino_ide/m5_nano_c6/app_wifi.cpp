@@ -9,6 +9,7 @@
  * 
  */
 
+#ifdef __WIFI_ENABLE__
 #include <M5NanoC6.h>
 #include "app_wifi.hpp"
 #include "app_neopixel.hpp"
@@ -285,3 +286,5 @@ bool app_wifi_main(void)
 
     return s_wifi_flag;
 }
+
+#endif /* __WIFI_ENABLE__ */
