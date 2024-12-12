@@ -78,7 +78,6 @@ void vTaskCoreMain(void *p_parameter)
 void vTaskWiFi(void *p_parameter)
 {
     DEBUG_PRINTF_RTOS("[Core] vTaskWiFi\n");
-    app_neopixel_main(16, 0, 0, 0, true, false); // red
     app_wifi_init();
 
     while (1)
@@ -104,6 +103,9 @@ void app_main_init(void)
 
     // UART
     Serial.begin(115200);
+    while (!Serial) {
+        WDT_TOGGLE;
+    }
 
     // ボタン
     app_btn_init();
@@ -111,11 +113,12 @@ void app_main_init(void)
     // LED
     pinMode(IR_LED_PIN, OUTPUT);
     pinMode(OB_LED_PIN, OUTPUT);
-    digitalWrite(OB_LED_PIN, HIGH);
+    // digitalWrite(OB_LED_PIN, HIGH);
     app_neopixel_init();
+    app_neopixel_main(16, 0, 0, 0, true, false); // red, on
 
     // File System(SD/SPIFS/FATFS)
-    app_fs_init();
+    // app_fs_init();
 
     // FreeRTOS
     xTaskCreatePinnedToCore(vTaskCoreMain,    // コールバック関数ポインタ

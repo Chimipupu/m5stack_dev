@@ -38,6 +38,15 @@
 
 #define DEEPSLEEP_TIME_US         DEEPSLEEP_TIME_US_1MIN
 
+static inline void WDT_TOGGLE(void)
+{
+#ifdef __WDT_ENABLE__
+    watchdog_update();
+#else
+    asm volatile("nop");
+#endif /* __WDT_ENABLE__ */
+}
+
 void app_main_init(void);
 void app_main(void);
 

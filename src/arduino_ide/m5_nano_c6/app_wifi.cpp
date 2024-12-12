@@ -17,11 +17,11 @@
 WebServer server(80);
 
 // ファイルシステム
-const char *CONFIG_FILE = "/wifi_config.json";
+const char *p_ap_wifi_str = "/wifi_config.json";
 
 // 初期APのWiFi設定
-const char *AP_SSID = "ESP32 Dev AP";
-const char *AP_PASSWORD = "esp32dev";
+const char *p_ap_ssid_str = "ESP32 Dev AP";
+const char *p_ap_password_str = "esp32dev";
 
 // NTP
 const char *ntpServer = "ntp.nict.jp";
@@ -45,7 +45,7 @@ static bool s_wifi_flag = false;
 static bool s_ap_flg = false;
 static bool s_ftp_flg = false;
 
-static bool loadWiFiConfig(void);
+static bool load_wifi_config(void);
 static void saveWiFiConfig(const String &ssid, const String &password);
 static void setupAP(void);
 static void handleRoot(void);
@@ -57,7 +57,7 @@ static void wifi_off_online_proc(void);
 static void ap_mode_main(void);
 static void sta_mode_main(void);
 
-static bool loadWiFiConfig(void)
+static bool load_wifi_config(void)
 {
     memset(&g_ssid[0], 0x00, sizeof(g_ssid));
     memset(&g_password[0], 0x00, sizeof(g_password));
@@ -72,10 +72,10 @@ static void setupAP(void)
 {
     WiFi.mode(WIFI_AP);
     DEBUG_PRINTF_RTOS("APモードを開始します\n");
-    WiFi.softAP(AP_SSID, AP_PASSWORD);
+    WiFi.softAP(p_ap_ssid_str, p_ap_password_str);
 
-    DEBUG_PRINTF_RTOS("AP SSID : %s\n", AP_SSID);
-    DEBUG_PRINTF_RTOS("AP Password : %s\n", AP_PASSWORD);
+    DEBUG_PRINTF_RTOS("AP SSID : %s\n", p_ap_ssid_str);
+    DEBUG_PRINTF_RTOS("AP Password : %s\n", p_ap_password_str);
 
     DEBUG_PRINTF_RTOS("AP Web Server IP addr : %s\n", WiFi.softAPIP().toString().c_str());
     String str = WiFi.macAddress();
@@ -212,13 +212,12 @@ static void sta_mode_main(void)
 
 static void ap_mode_main(void)
 {
+    setupAP();
     s_ap_flg = true;
     app_neopixel_main(0, 0, 16, 0,true, false); // blue, on
 
 #if 0
-    setupAP();
-
-    DEBUG_PRINTF_RTOS("Web鯖 begin...\n");
+    DEBUG_PRINTF_RTOS("uAP Web Server begin...\n");
     s_html_type = STA_WIFI_CONFIG;
     server.on("/", handleRoot);
     server.on("/save", HTTP_POST, handleSave);
@@ -258,12 +257,10 @@ void app_wifi_init(void)
     DEBUG_PRINTF_RTOS("WiFi Config File Reading...\n");
     size_t  wifi_config_str = strlen(g_ssid);
 
-    if (loadWiFiConfig() && (wifi_config_str > 0))
+    if (load_wifi_config() && (wifi_config_str > 0))
     {
         sta_mode_main();
-    }
-    else
-    {
+    } else {
         s_wifi_flag = true;
         ap_mode_main();
     }

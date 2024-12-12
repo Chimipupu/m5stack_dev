@@ -25,8 +25,6 @@ static void fs_init(void)
     if (!SD.begin())
     {
         DEBUG_PRINTF_RTOS("No SD Card. Plz, Insert SD & Reboot");
-        while (1)
-        ;
     }
 
     DEBUG_PRINTF_RTOS("File System Init(@SD)\n");
