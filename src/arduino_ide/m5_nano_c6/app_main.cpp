@@ -71,7 +71,7 @@ void vTaskCoreMain(void *p_parameter)
         DEBUG_PRINTF_RTOS("DeepSleep : %d min\n", dat);
         esp_deep_sleep_start();
 #endif
-        vTaskDelay(100 / portTICK_PERIOD_MS);
+        vTaskDelay(300 / portTICK_PERIOD_MS);
     }
 }
 

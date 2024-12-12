@@ -16,6 +16,12 @@
 
 #define BTN_PIN    9
 
+// ボタン長押し時間
+#define BTN_HOLD_1000_MS    1000
+#define BTN_HOLD_2000_MS    2000
+#define BTN_HOLD_3000_MS    3000
+#define BTN_HOLD_ON_TIME    200
+
 void app_btn_init(void);
 void app_btn_polling(void);
 
